@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ayman Yuhas Photography</title>
+<meta name="description" content="Street, portrait and event photography by Ayman Yuhas, a student photographer based in Groningen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   DESIGN TOKENS
+   Layout idea: a contact sheet in a dark room. One column of sections, each
+   gallery a masonry of frames, poster-style condensed titles, amber accent
+   used only for links and frame codes.
+   Change a colour or font here and it changes everywhere.
+   ========================================================================== */
+:root {
+  color-scheme: dark;
+
+  --ink: #0d0c0b;        /* page background */
+  --surface: #171513;    /* empty frames, panels */
+  --line: #2b2723;       /* hairlines and borders */
+  --paper: #ebe5da;      /* main text */
+  --dim: #8f877b;        /* secondary text */
+  --lamp: #dba25a;       /* accent: links, frame codes */
+
+  --font-display: "Big Shoulders Display", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --gutter: clamp(16px, 4vw, 56px);
+  --gap: clamp(8px, 1.2vw, 16px);
+  --section: clamp(72px, 11vw, 160px);
+  --measure: 62ch;
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+/* Film grain over the whole page */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+body.is-viewing { overflow: hidden; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: var(--lamp); text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+a:hover { color: var(--paper); }
+:focus-visible { outline: 2px solid var(--lamp); outline-offset: 3px; }
+p { margin: 0; max-width: var(--measure); }
+h1, h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 0.86;
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+}
+.data {
+  font-family: var(--font-data);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.wrap { padding-inline: var(--gutter); max-width: 1680px; margin-inline: auto; }
+
+/* ---------- Top bar ---------- */
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px 32px;
+  padding-block: 22px;
+  border-bottom: 1px solid var(--line);
+}
+.topbar__name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--paper);
+  text-decoration: none;
+}
+.topbar nav { display: flex; flex-wrap: wrap; gap: 6px 26px; }
+.topbar nav a {
+  font-family: var(--font-data);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-decoration: none;
+  padding-block: 4px;
+}
+.topbar nav a:hover { color: var(--lamp); }
+
+/* ---------- Intro ---------- */
+.intro { padding-block: clamp(40px, 7vw, 96px) 0; }
+.intro h1 { font-size: clamp(4rem, 16vw, 15rem); margin-left: -0.03em; }
+.intro__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 20px 48px;
+  margin-top: clamp(20px, 3vw, 40px);
+}
+.intro__lede { font-size: clamp(1.2rem, 1.9vw, 1.6rem); line-height: 1.4; max-width: 34ch; }
+.intro__meta { display: grid; gap: 4px; text-align: right; }
+
+/* Letterboxed lead frame, 2.39:1 like a cinema screen */
+.hero {
+  position: relative;
+  margin: clamp(28px, 4vw, 56px) 0 0;
+  aspect-ratio: 2.39 / 1;
+  background: var(--surface);
+  overflow: hidden;
+  animation: letterbox 1.5s cubic-bezier(0.2, 0.7, 0.1, 1) both;
+}
+.hero img { width: 100%; height: 100%; object-fit: cover; }
+/* While the site is live, empty frames show no labels and act as quiet loading blocks */
+.hide-empty .slot__code, .hide-empty .slot__file { visibility: hidden; }
+.hide-empty .slot::before, .hide-empty .slot::after { display: none; }
+@keyframes letterbox {
+  from { clip-path: inset(16% 0 16% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+/* ---------- Sections ---------- */
+.section { padding-top: var(--section); }
+.section__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 48px;
+  padding-bottom: clamp(18px, 2.4vw, 30px);
+  margin-bottom: var(--gap);
+  border-bottom: 1px solid var(--line);
+}
+.section__head h2 { font-size: clamp(3.5rem, 10vw, 8.5rem); margin-left: -0.02em; }
+.section__note { display: grid; gap: 10px; flex: 0 1 30rem; color: var(--dim); font-size: 1.05rem; line-height: 1.5; }
+
+/* ---------- Gallery: a masonry of frames ---------- */
+.grid { columns: 3; column-gap: var(--gap); }
+.frame { margin: 0 0 var(--gap); break-inside: avoid; }
+.frame__btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: zoom-in;
+}
+.frame__btn:disabled { cursor: default; }
+.frame__btn img { width: 100%; transition: filter 0.25s ease; }
+.frame__btn:hover img, .frame__btn:focus-visible img { filter: brightness(1.12); }
+.frame figcaption { padding-top: 8px; color: var(--dim); font-size: 0.95rem; line-height: 1.4; }
+
+/* Empty frame, shown until the real photo file exists */
+.slot {
+  position: relative;
+  display: grid;
+  align-content: end;
+  gap: 4px;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  padding: 14px;
+  text-align: left;
+  background:
+    radial-gradient(120% 90% at 20% 10%, var(--slot-glow, #23201c) 0%, transparent 60%),
+    var(--surface);
+  border: 1px solid var(--line);
+}
+.slot[data-shape="tall"] { aspect-ratio: 2 / 3; }
+.slot[data-shape="square"] { aspect-ratio: 1 / 1; }
+.slot[data-shape="cinema"] { aspect-ratio: auto; height: 100%; border: 0; padding: clamp(14px, 2.4vw, 32px); }
+.slot__code { font-family: var(--font-data); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--lamp); }
+.slot__file { font-family: var(--font-data); font-size: 0.75rem; color: var(--dim); overflow-wrap: anywhere; }
+/* corner ticks, like the edge of a viewfinder */
+.slot::before, .slot::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--dim);
+  opacity: 0.55;
+}
+.slot::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+.slot::after { top: 10px; right: 10px; border-left: 0; border-bottom: 0; }
+#street { --slot-glow: #1d242b; }
+#nature { --slot-glow: #1a261d; }
+#portraits { --slot-glow: #272019; }
+#events { --slot-glow: #2c2217; }
+
+/* ---------- About ---------- */
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 80px);
+  align-items: start;
+}
+.about.no-portrait { grid-template-columns: minmax(0, 1fr); }
+.about__text { display: grid; gap: 1.1em; font-size: clamp(1.15rem, 1.5vw, 1.35rem); }
+.about__text p:first-child { font-size: 1.3em; line-height: 1.35; }
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0 32px;
+  margin: 1.4em 0 0;
+  max-width: 44rem;
+}
+.facts div { display: grid; gap: 2px; padding-block: 12px; border-top: 1px solid var(--line); }
+.facts dt { font-family: var(--font-data); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); }
+.facts dd { margin: 0; font-size: 1.05rem; }
+
+/* ---------- Booking ---------- */
+.book {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 80px);
+  align-items: start;
+}
+.book__lede { font-size: clamp(1.2rem, 1.7vw, 1.5rem); line-height: 1.4; max-width: 30ch; }
+.contact { display: grid; margin: 0; padding: 0; list-style: none; }
+.contact li { display: grid; gap: 6px; padding-block: 20px; border-top: 1px solid var(--line); }
+.contact li:last-child { border-bottom: 1px solid var(--line); }
+.contact__value {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.7rem, 3.4vw, 2.9rem);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
+  color: var(--paper);
+  text-decoration: none;
+}
+a.contact__value:hover { color: var(--lamp); }
+.contact__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; }
+.btn {
+  font-family: var(--font-data);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--lamp);
+  border: 1px solid var(--lamp);
+  padding: 9px 14px;
+  cursor: pointer;
+}
+.btn:hover { background: var(--paper); border-color: var(--paper); }
+.link-small { font-family: var(--font-data); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.copy-note { font-family: var(--font-data); font-size: 0.75rem; color: var(--dim); min-height: 1.2em; }
+
+/* ---------- Footer: a poster billing block ---------- */
+.billing {
+  margin-top: var(--section);
+  padding-block: 36px 48px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+.billing p {
+  max-width: none;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(0.95rem, 1.7vw, 1.3rem);
+  line-height: 1.5;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.billing small { font-size: 0.62em; letter-spacing: 0.2em; }
+.billing b { font-weight: 600; color: var(--paper); }
+
+/* ---------- Full-screen viewer ---------- */
+.viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  padding: 16px var(--gutter) 20px;
+  background: rgba(8, 7, 6, 0.97);
+}
+.viewer[hidden] { display: none; }
+.viewer__bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.viewer__stage { display: grid; place-items: center; min-height: 0; }
+.viewer__stage img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+.viewer__foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.viewer__caption { color: var(--dim); font-size: 1rem; max-width: none; }
+.viewer__nav { display: flex; gap: 8px; }
+.ghost {
+  font-family: var(--font-data);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 9px 14px;
+  cursor: pointer;
+}
+.ghost:hover { border-color: var(--lamp); color: var(--lamp); }
+
+/* ---------- Smaller screens ---------- */
+@media (max-width: 900px) {
+  .grid { columns: 2; }
+  .about, .book { grid-template-columns: minmax(0, 1fr); }
+  .about__portrait { max-width: 18rem; }
+}
+@media (max-width: 560px) {
+  body { font-size: 1.0625rem; }
+  .grid { columns: 1; }
+  .intro__row { grid-template-columns: minmax(0, 1fr); }
+  .intro__meta { text-align: left; }
+  .hero { aspect-ratio: 16 / 9; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero { animation: none; }
+  .frame__btn img { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ======================================================================
+     TOP BAR
+     ====================================================================== -->
+<header class="wrap">
+  <div class="topbar">
+    <a class="topbar__name" href="#top">Ayman Yuhas Photography</a>
+    <nav aria-label="Sections">
+      <a href="#street">Street</a>
+      <a href="#portraits">Portraits</a>
+      <a href="#events">Events</a>
+      <a href="#about">About</a>
+      <a href="#book">Book</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ====================================================================
+       INTRO  ·  edit the words here
+       ==================================================================== -->
+  <section class="wrap intro" aria-labelledby="intro-title">
+    <h1 id="intro-title">Ayman Yuhas</h1>
+    <div class="intro__row">
+      <p class="intro__lede">Street photographs that tell a real story. Portraits and events when you need someone behind the camera.</p>
+      <p class="intro__meta data">
+        <span>Photography</span>
+        <span>Groningen, NL</span>
+      </p>
+    </div>
+    <figure class="hero" id="hero"></figure>
+  </section>
+
+  <!-- ====================================================================
+       GALLERY  ·  the photos themselves are listed in the script at the
+       bottom of this file. Edit the heading and note for each section here.
+       ==================================================================== -->
+  <section class="wrap section" id="street" aria-labelledby="street-title">
+    <div class="section__head">
+      <h2 id="street-title">Street</h2>
+      <div class="section__note">
+        <p>People as they are, where they are. The frames I'd keep if I could only keep a few.</p>
+        <span class="data" data-count="street">17 frames</span>
+      </div>
+    </div>
+    <div class="grid" data-grid="street"></div>
+  </section>
+
+  <section class="wrap section" id="portraits" aria-labelledby="portraits-title">
+    <div class="section__head">
+      <h2 id="portraits-title">Portraits</h2>
+      <div class="section__note">
+        <p>Individuals and groups, posed and lit on location.</p>
+        <span class="data" data-count="portraits">7 frames</span>
+      </div>
+    </div>
+    <div class="grid" data-grid="portraits"></div>
+  </section>
+
+  <section class="wrap section" id="events" aria-labelledby="events-title">
+    <div class="section__head">
+      <h2 id="events-title">Events</h2>
+      <div class="section__note">
+        <p>Parties, galas and association nights in Groningen.</p>
+        <span class="data" data-count="events">6 frames</span>
+      </div>
+    </div>
+    <div class="grid" data-grid="events"></div>
+  </section>
+
+  <!-- ====================================================================
+       ABOUT  ·  edit the words here
+       ==================================================================== -->
+  <section class="wrap section" id="about" aria-labelledby="about-title">
+    <div class="section__head">
+      <h2 id="about-title">About</h2>
+      <div class="section__note">
+        <span class="data">Student photographer</span>
+      </div>
+    </div>
+    <div class="about">
+      <figure class="frame about__portrait" id="portrait"></figure>
+      <div>
+        <div class="about__text">
+          <p>I'm Ayman, a student photographer based in Groningen.</p>
+          <p>The photographs I care about most are street shots that tell a real story: a stranger mid-gesture, two people sitting on a kerb, a moment that would otherwise have gone unrecorded. I shoot nature and animals for the same reason.</p>
+          <p>I also photograph portraits and events in Groningen, including galas, association shoots and parties, with flash when the room needs it.</p>
+        </div>
+        <dl class="facts">
+          <div><dt>Based in</dt><dd>Groningen, NL</dd></div>
+          <div><dt>Camera</dt><dd>Canon 80D</dd></div>
+          <div><dt>Shoots</dt><dd>Street, portraits, events</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================
+       BOOKING / CONTACT  ·  your Instagram and email live here.
+       If you change the email, change it in all three places in this block.
+       ==================================================================== -->
+  <section class="wrap section" id="book" aria-labelledby="book-title">
+    <div class="section__head">
+      <h2 id="book-title">Book a shoot</h2>
+      <div class="section__note">
+        <span class="data">Groningen and nearby</span>
+      </div>
+    </div>
+    <div class="book">
+      <p class="book__lede">Events, portraits, or a walk around the city with a camera. Send me the date, the place and what you have in mind, and I'll reply with availability and a price.</p>
+      <ul class="contact">
+        <li>
+          <span class="data">Instagram</span>
+          <a class="contact__value" href="https://www.instagram.com/ayphotos715/" target="_blank" rel="noopener">@ayphotos715</a>
+        </li>
+        <li>
+          <span class="data">Email</span>
+          <span class="contact__value" id="email-address">aymam715@gmail.com</span>
+          <span class="contact__actions">
+            <button class="btn" type="button" id="copy-email">Copy address</button>
+            <a class="link-small" href="mailto:aymam715@gmail.com">Open in mail app</a>
+          </span>
+          <span class="copy-note" id="copy-note" role="status"></span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======================================================================
+     FOOTER
+     ====================================================================== -->
+<footer class="wrap">
+  <div class="billing">
+    <p>
+      <small>Photographs by</small> <b>Ayman Yuhas</b>
+      <small>· Made in</small> <b>Groningen</b>
+      <small>· Camera</small> <b>Canon 80D</b>
+      <small>· Instagram</small> <b>@ayphotos715</b>
+    </p>
+  </div>
+</footer>
+
+<!-- Full-screen viewer, opens when a photo is clicked -->
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+  <div class="viewer__bar">
+    <span class="data" id="viewer-count"></span>
+    <button class="ghost" type="button" id="viewer-close">Close</button>
+  </div>
+  <div class="viewer__stage"><img id="viewer-img" alt=""></div>
+  <div class="viewer__foot">
+    <p class="viewer__caption" id="viewer-caption"></p>
+    <div class="viewer__nav">
+      <button class="ghost" type="button" id="viewer-prev">Previous</button>
+      <button class="ghost" type="button" id="viewer-next">Next</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==========================================================================
+   YOUR PHOTOS  ·  this is the only part of the script you need to edit.
+
+   How it works
+   - Your image files live in a folder called "images" next to this file.
+   - Each line below is one photo. "file" is the file name inside that folder.
+
+   Per photo
+     file     the file name, e.g. "street-01.jpg"
+     alt      a short description for people using screen readers.
+     caption  optional. Shown under the photo. Leave "" for none.
+     shape    only affects the empty frame shown while a photo loads:
+              "wide", "tall" or "square". A real photo always shows at its
+              own proportions.
+
+   To add a photo: put the file in "images", copy a line, change the file name.
+   To remove one: delete its line, or put // in front of it to switch it off.
+   To reorder: move the lines.
+   ========================================================================== */
+
+const IMAGE_FOLDER = "images/";
+
+/* true  = a missing photo shows as an empty frame with the file name it is
+           waiting for (handy while you are building a new section)
+   false = a missing photo is left out (use this while the site is live) */
+const SHOW_EMPTY_FRAMES = false;
+
+/* The wide image under your name. It is cropped to a cinema shape, and
+   "position" picks which part stays visible: "50% 50%" is the centre,
+   "50% 0%" the top, "50% 100%" the bottom. */
+const HERO = {
+  file: "hero.jpg",
+  alt: "A man sits on a canal quay beside a seagull",
+  position: "50% 72%"
+};
+
+/* A photo of you for the About section. Left out until images/about.jpg exists. */
+const PORTRAIT = { file: "about.jpg", alt: "Portrait of Ayman Yuhas" };
+
+const GALLERY = {
+  street: [
+    { file: "street-01.jpg", shape: "tall", caption: "", alt: "Man in a high-visibility vest adjusting his headscarf, black and white" },
+    { file: "street-02.jpg", shape: "tall", caption: "", alt: "Woman on a park bench surrounded by red autumn leaves" },
+    { file: "street-03.jpg", shape: "tall", caption: "", alt: "Couple holding each other on a canal-side kerb at dusk" },
+    { file: "street-04.jpg", shape: "tall", caption: "", alt: "Person sitting on a sunlit patch of grass under dark trees, reflected in water" },
+    { file: "street-05.jpg", shape: "wide", caption: "", alt: "Person with an afro and goggles sitting on a ledge, looking at a phone" },
+    { file: "street-06.jpg", shape: "tall", caption: "", alt: "Crowded train platform seen from above" },
+    { file: "street-07.jpg", shape: "tall", caption: "", alt: "Police officers standing beside a person wrapped in a flag, black and white" },
+    { file: "street-08.jpg", shape: "wide", caption: "", alt: "Three people sitting with their backs to the camera against a yellow wall" },
+    { file: "street-09.jpg", shape: "tall", caption: "", alt: "Marchers carrying flags and signs at a demonstration, black and white" },
+    { file: "street-10.jpg", shape: "wide", caption: "", alt: "Couple on a bench overlooking a valley and mountains" },
+    { file: "street-11.jpg", shape: "tall", caption: "", alt: "Two skaters sitting on steps with their boards" },
+    { file: "street-12.jpg", shape: "wide", caption: "", alt: "Group of skaters sitting along a canal wall" },
+    { file: "street-13.jpg", shape: "wide", caption: "", alt: "Man on a bench at a viewpoint with a dog sniffing the ground" },
+    { file: "street-14.jpg", shape: "wide", caption: "", alt: "Arched alley with cafe tables and warm-coloured walls" },
+    { file: "street-15.jpg", shape: "tall", caption: "", alt: "Narrow street of orange buildings with a figure climbing the steps" },
+    { file: "street-16.jpg", shape: "tall", caption: "", alt: "Busy narrow street hung with bunting" },
+    { file: "street-17.jpg", shape: "wide", caption: "", alt: "Two silhouettes walking through a dark tunnel towards daylight" }
+    /* Four more of your picks are in the images folder but switched off.
+       To show one, move its line up into the list above (add a comma after
+       the line before it).
+    { file: "street-18.jpg", shape: "tall", caption: "", alt: "Two people sitting on a canal quay, seen from behind" },
+    { file: "street-19.jpg", shape: "tall", caption: "", alt: "Fallen leaf on a wooden bench at sunset" },
+    { file: "street-20.jpg", shape: "tall", caption: "", alt: "Man in a cap sitting in shadow beside a canal" },
+    { file: "street-21.jpg", shape: "tall", caption: "", alt: "Man standing in a small boat under a bridge" }
+    */
+  ],
+  portraits: [
+    { file: "portraits-01.jpg", shape: "tall", caption: "", alt: "Man in a pinstripe three-piece suit with his hands steepled, against a dark background" },
+    { file: "portraits-02.jpg", shape: "tall", caption: "", alt: "Woman in a dark suit seated in an armchair beside a bronze statuette" },
+    { file: "portraits-03.jpg", shape: "tall", caption: "", alt: "Man in a dark suit seated in an armchair beside a bronze statuette" },
+    { file: "portraits-04.jpg", shape: "wide", caption: "", alt: "Five people in dark suits standing in a wood-panelled hall" },
+    { file: "portraits-05.jpg", shape: "wide", caption: "", alt: "Man in a dark suit standing in a wood-panelled hall" },
+    { file: "portraits-06.jpg", shape: "wide", caption: "", alt: "Five people in dark suits posed beneath a row of painted portraits" },
+    { file: "portraits-07.jpg", shape: "wide", caption: "", alt: "Group in dark suits posing with silver number balloons" }
+  ],
+  events: [
+    { file: "events-01.jpg", shape: "wide", caption: "", alt: "Packed dance floor with red smoke and stage lights" },
+    { file: "events-02.jpg", shape: "wide", caption: "", alt: "Group of friends posing and pointing at the camera at a party" },
+    { file: "events-03.jpg", shape: "wide", caption: "", alt: "Three people in orange shirts and fluffy orange hats posing" },
+    { file: "events-04.jpg", shape: "wide", caption: "", alt: "Smiling partygoer in an orange cowboy hat holding up a fan" },
+    { file: "events-05.jpg", shape: "wide", caption: "", alt: "Group of friends posing together at a bar" },
+    { file: "events-06.jpg", shape: "wide", caption: "", alt: "Partygoer drinking a shot on a crowded dance floor" }
+  ]
+};
+
+/* ==========================================================================
+   Everything below builds the page from the lists above.
+   You shouldn't need to touch it.
+   ========================================================================== */
+
+if (!SHOW_EMPTY_FRAMES) document.body.classList.add("hide-empty");
+
+function pad(n) { return String(n).padStart(2, "0"); }
+
+/* An empty frame, shown while a photo loads or while its file is missing */
+function makeSlot(code, file, shape) {
+  const slot = document.createElement("div");
+  slot.className = "slot";
+  slot.dataset.shape = shape || "wide";
+  const c = document.createElement("span");
+  c.className = "slot__code";
+  c.textContent = code;
+  const f = document.createElement("span");
+  f.className = "slot__file";
+  f.textContent = IMAGE_FOLDER + file;
+  slot.append(c, f);
+  return slot;
+}
+
+/* Try to load a photo: swap it in if the file exists, otherwise report it missing */
+function loadPhoto(photo, fallbackAlt, onReady, onMissing) {
+  const img = new Image();
+  img.alt = photo.alt || photo.caption || fallbackAlt;
+  img.onload = function () { onReady(img); };
+  img.onerror = function () { if (onMissing) onMissing(); };
+  img.src = IMAGE_FOLDER + photo.file;
+}
+
+function updateCount(name) {
+  const grid = document.querySelector('[data-grid="' + name + '"]');
+  const count = document.querySelector('[data-count="' + name + '"]');
+  if (!grid || !count) return;
+  const n = grid.children.length;
+  count.textContent = n + (n === 1 ? " frame" : " frames");
+}
+
+function buildFrame(photo, sectionName, number) {
+  const code = sectionName.charAt(0).toUpperCase() + "·" + pad(number);
+  const figure = document.createElement("figure");
+  figure.className = "frame";
+  figure.dataset.caption = photo.caption || "";
+
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "frame__btn";
+  btn.disabled = true;
+  btn.setAttribute("aria-label", "Loading photo " + code);
+  btn.append(makeSlot(code, photo.file, photo.shape));
+  figure.append(btn);
+
+  if (photo.caption) {
+    const cap = document.createElement("figcaption");
+    cap.textContent = photo.caption;
+    figure.append(cap);
+  }
+
+  loadPhoto(photo, sectionName + " photograph " + number,
+    function (img) {
+      btn.replaceChildren(img);
+      btn.disabled = false;
+      btn.setAttribute("aria-label", "Open photo: " + img.alt);
+      figure.classList.add("is-loaded");
+    },
+    function () {
+      if (SHOW_EMPTY_FRAMES) {
+        btn.setAttribute("aria-label", "Empty frame " + code + ", waiting for " + photo.file);
+      } else {
+        figure.remove();
+        updateCount(sectionName);
+      }
+    });
+
+  btn.addEventListener("click", function () {
+    openViewer(loadedFrames().indexOf(figure));
+  });
+  return figure;
+}
+
+/* Galleries */
+Object.keys(GALLERY).forEach(function (name) {
+  const grid = document.querySelector('[data-grid="' + name + '"]');
+  if (!grid) return;
+  GALLERY[name].forEach(function (photo, i) { grid.append(buildFrame(photo, name, i + 1)); });
+  updateCount(name);
+});
+
+/* Lead image */
+(function () {
+  const hero = document.getElementById("hero");
+  hero.append(makeSlot("Lead frame · 2.39:1", HERO.file, "cinema"));
+  loadPhoto(HERO, "Lead photograph",
+    function (img) {
+      if (HERO.position) img.style.objectPosition = HERO.position;
+      hero.replaceChildren(img);
+    },
+    function () { if (!SHOW_EMPTY_FRAMES) hero.remove(); });
+})();
+
+/* About portrait */
+(function () {
+  const box = document.getElementById("portrait");
+  box.append(makeSlot("Portrait", PORTRAIT.file, "tall"));
+  loadPhoto(PORTRAIT, "Portrait of the photographer",
+    function (img) { box.replaceChildren(img); },
+    function () {
+      if (SHOW_EMPTY_FRAMES) return;
+      box.closest(".about").classList.add("no-portrait");
+      box.remove();
+    });
+})();
+
+/* ---------- Full-screen viewer ---------- */
+const viewer = document.getElementById("viewer");
+const viewerImg = document.getElementById("viewer-img");
+const viewerCaption = document.getElementById("viewer-caption");
+const viewerCount = document.getElementById("viewer-count");
+const viewerClose = document.getElementById("viewer-close");
+let viewerIndex = 0;
+let lastFocus = null;
+
+function loadedFrames() {
+  return Array.from(document.querySelectorAll(".grid .frame.is-loaded"));
+}
+
+function showFrame(i) {
+  const frames = loadedFrames();
+  if (!frames.length) return;
+  viewerIndex = (i + frames.length) % frames.length;
+  const frame = frames[viewerIndex];
+  const source = frame.querySelector("img");
+  viewerImg.src = source.src;
+  viewerImg.alt = source.alt;
+  viewerCaption.textContent = frame.dataset.caption || "";
+  viewerCount.textContent = pad(viewerIndex + 1) + " / " + pad(frames.length);
+}
+
+function openViewer(i) {
+  if (i < 0) return;
+  lastFocus = document.activeElement;
+  showFrame(i);
+  viewer.hidden = false;
+  document.body.classList.add("is-viewing");
+  viewerClose.focus();
+}
+
+function closeViewer() {
+  viewer.hidden = true;
+  document.body.classList.remove("is-viewing");
+  if (lastFocus && lastFocus.focus) lastFocus.focus();
+}
+
+viewerClose.addEventListener("click", closeViewer);
+document.getElementById("viewer-prev").addEventListener("click", function () { showFrame(viewerIndex - 1); });
+document.getElementById("viewer-next").addEventListener("click", function () { showFrame(viewerIndex + 1); });
+viewer.addEventListener("click", function (e) {
+  if (e.target === viewer || e.target.classList.contains("viewer__stage")) closeViewer();
+});
+document.addEventListener("keydown", function (e) {
+  if (viewer.hidden) return;
+  if (e.key === "Escape") closeViewer();
+  if (e.key === "ArrowLeft") showFrame(viewerIndex - 1);
+  if (e.key === "ArrowRight") showFrame(viewerIndex + 1);
+});
+
+/* ---------- Copy email button ---------- */
+document.getElementById("copy-email").addEventListener("click", function () {
+  const address = document.getElementById("email-address").textContent.trim();
+  const note = document.getElementById("copy-note");
+  const fail = function () { note.textContent = "Couldn't copy. Select the address above and copy it."; };
+  try {
+    navigator.clipboard.writeText(address).then(
+      function () { note.textContent = "Address copied."; },
+      fail
+    );
+  } catch (err) {
+    fail();
+  }
+});
+</script>
+</body>
+</html>
