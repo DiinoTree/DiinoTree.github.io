@@ -2,43 +2,50 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ayman Yuhas Photography</title>
-<meta name="description" content="Street, portrait and event photography by Ayman Yuhas, a student photographer based in Groningen.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ayman Yuhas — Photography</title>
+<meta name="description" content="Street, portrait and event photography by Ayman Yuhas, a photographer based in Groningen, NL.">
+<meta name="theme-color" content="#0d0c0b">
+
+<!-- Preload key fonts & assets for instant rendering -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+
 <style>
 /* ==========================================================================
-   DESIGN TOKENS
-   Layout idea: a contact sheet in a dark room. One column of sections, each
-   gallery a masonry of frames, poster-style condensed titles, amber accent
-   used only for links and frame codes.
-   Change a colour or font here and it changes everywhere.
+   DESIGN TOKENS & CINEMATIC DARKROOM THEME
    ========================================================================== */
 :root {
   color-scheme: dark;
 
-  --ink: #0d0c0b;        /* page background */
-  --surface: #171513;    /* empty frames, panels */
-  --line: #2b2723;       /* hairlines and borders */
-  --paper: #ebe5da;      /* main text */
-  --dim: #8f877b;        /* secondary text */
-  --lamp: #dba25a;       /* accent: links, frame codes */
+  --ink: #0c0b0a;        /* Deep carbon black background */
+  --surface: #161413;    /* Frame background, empty slots */
+  --surface-hover: #211e1b;
+  --line: #272421;       /* Hairlines and dividers */
+  --line-strong: #3d3731;
+  --paper: #ece7dd;      /* Crisp warm paper text */
+  --dim: #9e988f;        /* Secondary technical text with enhanced contrast */
+  --lamp: #dba25a;       /* Amber safelight accent: links, active states, codes */
+  --lamp-glow: rgba(219, 162, 90, 0.15);
 
   --font-display: "Big Shoulders Display", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Newsreader", Georgia, "Times New Roman", serif;
   --font-data: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-  --gutter: clamp(20px, 6vw, 112px);
-  --gap: clamp(12px, 1.8vw, 28px);
-  --section: clamp(72px, 11vw, 160px);
+  --gutter: clamp(16px, 4.5vw, 96px);
+  --gap: clamp(10px, 1.6vw, 24px);
+  --section: clamp(64px, 9vw, 136px);
   --measure: 62ch;
 }
 
-/* ---------- Base ---------- */
+/* ---------- Reset & Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 80px;
+}
 body {
   margin: 0;
   background: var(--ink);
@@ -47,61 +54,127 @@ body {
   font-size: 1.125rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
-/* Film grain over the whole page */
+
+/* Hardware-accelerated film grain overlay (no lag on mobile scroll) */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 60;
   pointer-events: none;
-  opacity: 0.07;
+  opacity: 0.065;
+  transform: translateZ(0);
+  will-change: opacity;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+
 body.is-viewing { overflow: hidden; }
-img { display: block; max-width: 100%; height: auto; }
-a { color: var(--lamp); text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--lamp);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  transition: color 0.18s ease;
+}
 a:hover { color: var(--paper); }
-:focus-visible { outline: 2px solid var(--lamp); outline-offset: 3px; }
+
+:focus-visible {
+  outline: 2px solid var(--lamp);
+  outline-offset: 3px;
+}
+
 p { margin: 0; max-width: var(--measure); }
-h1, h2 {
+
+h1, h2, h3 {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 800;
   text-transform: uppercase;
-  line-height: 0.86;
-  letter-spacing: 0.005em;
+  line-height: 0.88;
+  letter-spacing: 0.01em;
   text-wrap: balance;
 }
+
 .data {
   font-family: var(--font-data);
   font-size: 0.75rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--dim);
 }
-.wrap { padding-inline: var(--gutter); max-width: 1560px; margin-inline: auto; }
 
-/* ---------- Top bar ---------- */
+.wrap {
+  padding-inline: var(--gutter);
+  max-width: 1560px;
+  margin-inline: auto;
+}
+
+/* ---------- Sticky Top Bar & Mobile Navigation ---------- */
+.topbar-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(12, 11, 10, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
 .topbar {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
-  gap: 12px 32px;
-  padding-block: 22px;
-  border-bottom: 1px solid var(--line);
+  gap: 16px 28px;
+  padding-block: 16px;
 }
-.topbar__name {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.25rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--paper);
+
+.topbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   text-decoration: none;
 }
-.topbar nav { display: flex; flex-wrap: wrap; gap: 6px 26px; }
+
+.topbar__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper);
+  line-height: 1;
+}
+
+.topbar__tag {
+  font-family: var(--font-data);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--lamp);
+  border: 1px solid var(--line);
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+.topbar nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.topbar nav::-webkit-scrollbar { display: none; }
+
 .topbar nav a {
   font-family: var(--font-data);
   font-size: 0.75rem;
@@ -109,75 +182,225 @@ h1, h2 {
   text-transform: uppercase;
   color: var(--dim);
   text-decoration: none;
-  padding-block: 4px;
+  padding: 8px 12px;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: color 0.18s ease, background 0.18s ease;
+  white-space: nowrap;
 }
-.topbar nav a:hover { color: var(--lamp); }
+.topbar nav a:hover {
+  color: var(--lamp);
+  background: var(--surface);
+}
+.topbar nav a.is-active {
+  color: var(--lamp);
+  background: var(--lamp-glow);
+  font-weight: 600;
+}
 
-/* ---------- Intro ---------- */
-.intro { padding-block: clamp(36px, 5vw, 72px) 0; }
-.intro h1 { font-size: clamp(2.4rem, 5vw, 4.25rem); line-height: 0.95; }
+/* ---------- Intro Section ---------- */
+.intro {
+  padding-block: clamp(32px, 5vw, 64px) 0;
+}
+.intro h1 {
+  font-size: clamp(2.8rem, 6.5vw, 5.25rem);
+  line-height: 0.9;
+  letter-spacing: 0.005em;
+}
 .intro__row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
   gap: 20px 48px;
-  margin-top: clamp(20px, 3vw, 40px);
+  margin-top: clamp(18px, 2.8vw, 36px);
 }
-.intro__lede { font-size: clamp(1.2rem, 1.9vw, 1.6rem); line-height: 1.4; max-width: 34ch; }
-.intro__meta { display: grid; gap: 4px; text-align: right; }
+.intro__lede {
+  font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+  line-height: 1.45;
+  max-width: 36ch;
+  color: var(--paper);
+}
+.intro__meta {
+  display: grid;
+  gap: 4px;
+  text-align: right;
+}
+.intro__meta span { display: block; }
 
 /* Letterboxed lead frame, 2.39:1 like a cinema screen */
 .hero {
   position: relative;
-  margin: clamp(28px, 4vw, 56px) 0 0;
+  margin: clamp(24px, 3.6vw, 48px) 0 0;
   aspect-ratio: 2.39 / 1;
   background: var(--surface);
+  border: 1px solid var(--line);
   overflow: hidden;
-  animation: letterbox 1.5s cubic-bezier(0.2, 0.7, 0.1, 1) both;
+  animation: letterbox 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.hero img { width: 100%; height: 100%; object-fit: cover; }
-/* While the site is live, empty frames show no labels and act as quiet loading blocks */
-.hide-empty .slot__code, .hide-empty .slot__file { visibility: hidden; }
-.hide-empty .slot::before, .hide-empty .slot::after { display: none; }
-@keyframes letterbox {
-  from { clip-path: inset(16% 0 16% 0); }
-  to   { clip-path: inset(0 0 0 0); }
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  transform: scale(1.01);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hero:hover img {
+  transform: scale(1.03);
 }
 
-/* ---------- Sections ---------- */
-.section { padding-top: var(--section); }
+@keyframes letterbox {
+  from { clip-path: inset(14% 0 14% 0); opacity: 0.85; }
+  to   { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+
+/* ---------- Section Header ---------- */
+.section {
+  padding-top: var(--section);
+}
 .section__head {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 16px 48px;
-  padding-bottom: clamp(18px, 2.4vw, 30px);
+  gap: 16px 36px;
+  padding-bottom: clamp(14px, 2vw, 24px);
   margin-bottom: var(--gap);
   border-bottom: 1px solid var(--line);
 }
-.section__head h2 { font-size: clamp(2.75rem, 6.5vw, 5.5rem); }
-.section__note { display: grid; gap: 10px; flex: 0 1 30rem; color: var(--dim); font-size: 1.05rem; line-height: 1.5; }
+.section__title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.section__head h2 {
+  font-size: clamp(2.5rem, 6vw, 5.25rem);
+}
+.section__note {
+  display: grid;
+  gap: 6px;
+  flex: 0 1 28rem;
+  color: var(--dim);
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+.section__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.frame-count-badge {
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  color: var(--lamp);
+  background: var(--lamp-glow);
+  padding: 3px 8px;
+  border-radius: 2px;
+  border: 1px solid rgba(219, 162, 90, 0.25);
+  letter-spacing: 0.08em;
+}
 
-/* ---------- Gallery: a masonry of frames ---------- */
-.grid { columns: 3; column-gap: var(--gap); }
-.frame { margin: 0 0 var(--gap); break-inside: avoid; }
+/* ---------- Gallery Grid (Masonry) ---------- */
+.grid {
+  columns: 3;
+  column-gap: var(--gap);
+}
+
+.frame {
+  margin: 0 0 var(--gap);
+  break-inside: avoid;
+  position: relative;
+}
+
 .frame__btn {
   display: block;
   width: 100%;
   padding: 0;
   border: 0;
-  background: none;
+  background: var(--surface);
   color: inherit;
   font: inherit;
   cursor: zoom-in;
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+  outline: none;
 }
-.frame__btn:disabled { cursor: default; }
-.frame__btn img { width: 100%; transition: filter 0.25s ease; }
-.frame__btn:hover img, .frame__btn:focus-visible img { filter: brightness(1.12); }
-.frame figcaption { padding-top: 8px; color: var(--dim); font-size: 0.95rem; line-height: 1.4; }
 
-/* Empty frame, shown until the real photo file exists */
+/* Darkroom frame placeholder while loading */
+.frame__btn::after {
+  content: "";
+  display: block;
+  padding-bottom: var(--aspect, 133.33%);
+  background: var(--surface);
+  transition: opacity 0.3s ease;
+}
+
+.frame__btn img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease, filter 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.frame__btn.is-loaded img {
+  opacity: 1;
+}
+.frame__btn.is-loaded::after {
+  display: none;
+}
+.frame__btn.is-loaded img.static-img {
+  position: static;
+  height: auto;
+}
+
+.frame__btn:hover img,
+.frame__btn:focus-visible img {
+  filter: brightness(1.12);
+  transform: scale(1.02);
+}
+
+.frame__stamp {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  z-index: 5;
+  font-family: var(--font-data);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--paper);
+  background: rgba(12, 11, 10, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 3px 7px;
+  border-radius: 2px;
+  border: 1px solid var(--line);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.frame__btn:hover .frame__stamp,
+.frame__btn:focus-visible .frame__stamp {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.frame figcaption {
+  padding-top: 8px;
+  color: var(--dim);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* Empty frame placeholder */
 .slot {
   position: relative;
   display: grid;
@@ -187,248 +410,681 @@ h1, h2 {
   aspect-ratio: 3 / 2;
   padding: 14px;
   text-align: left;
-  background:
-    radial-gradient(120% 90% at 20% 10%, var(--slot-glow, #23201c) 0%, transparent 60%),
-    var(--surface);
+  background: var(--surface);
   border: 1px solid var(--line);
 }
 .slot[data-shape="tall"] { aspect-ratio: 2 / 3; }
 .slot[data-shape="square"] { aspect-ratio: 1 / 1; }
-.slot[data-shape="cinema"] { aspect-ratio: auto; height: 100%; border: 0; padding: clamp(14px, 2.4vw, 32px); }
 .slot__code { font-family: var(--font-data); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--lamp); }
 .slot__file { font-family: var(--font-data); font-size: 0.75rem; color: var(--dim); overflow-wrap: anywhere; }
-/* corner ticks, like the edge of a viewfinder */
+
+/* Corner ticks */
 .slot::before, .slot::after {
   content: "";
   position: absolute;
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   border: 1px solid var(--dim);
-  opacity: 0.55;
+  opacity: 0.45;
 }
-.slot::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
-.slot::after { top: 10px; right: 10px; border-left: 0; border-bottom: 0; }
-#street { --slot-glow: #1d242b; }
-#nature { --slot-glow: #1a261d; }
-#portraits { --slot-glow: #272019; }
-#events { --slot-glow: #2c2217; }
+.slot::before { top: 8px; left: 8px; border-right: 0; border-bottom: 0; }
+.slot::after  { top: 8px; right: 8px; border-left: 0; border-bottom: 0; }
 
-/* ---------- About ---------- */
+/* ---------- About Section ---------- */
 .about {
   display: grid;
-  grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
-  gap: clamp(24px, 5vw, 80px);
+  grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+  gap: clamp(24px, 4.5vw, 64px);
   align-items: start;
 }
 .about.no-portrait { grid-template-columns: minmax(0, 1fr); }
-.about__text { display: grid; gap: 1.1em; font-size: clamp(1.15rem, 1.5vw, 1.35rem); }
-.about__text p:first-child { font-size: 1.3em; line-height: 1.35; }
+.about__portrait {
+  position: relative;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  overflow: hidden;
+  border-radius: 2px;
+  aspect-ratio: 3 / 4;
+  margin: 0;
+}
+.about__portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+/* Corner ticks matching darkroom theme */
+.about__portrait::before,
+.about__portrait::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--dim);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 2;
+}
+.about__portrait::before { top: 8px; left: 8px; border-right: 0; border-bottom: 0; }
+.about__portrait::after  { top: 8px; right: 8px; border-left: 0; border-bottom: 0; }
+
+.about__stamp {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  z-index: 2;
+  font-family: var(--font-data);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--paper);
+  background: rgba(12, 11, 10, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 3px 8px;
+  border-radius: 2px;
+  border: 1px solid var(--line);
+  text-transform: uppercase;
+}
+.about__text {
+  display: grid;
+  gap: 1.1em;
+  font-size: clamp(1.15rem, 1.4vw, 1.35rem);
+  line-height: 1.6;
+}
+.about__text p:first-child {
+  font-size: 1.25em;
+  line-height: 1.35;
+  color: var(--paper);
+}
+
 .facts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
-  gap: 0 32px;
-  margin: 1.4em 0 0;
-  max-width: 44rem;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0 40px;
+  margin: 1.8em 0 0;
+  max-width: 32rem;
 }
-.facts div { display: grid; gap: 2px; padding-block: 12px; border-top: 1px solid var(--line); }
-.facts dt { font-family: var(--font-data); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); }
-.facts dd { margin: 0; font-size: 1.05rem; }
+.facts div {
+  display: grid;
+  gap: 4px;
+  padding-block: 14px;
+  border-top: 1px solid var(--line);
+}
+.facts dt {
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.facts dd {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--paper);
+}
 
-/* ---------- Booking ---------- */
+/* ---------- Booking / Contact Section ---------- */
 .book {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(24px, 5vw, 80px);
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 80px);
   align-items: start;
 }
-.book__lede { font-size: clamp(1.2rem, 1.7vw, 1.5rem); line-height: 1.4; max-width: 30ch; }
-.contact { display: grid; margin: 0; padding: 0; list-style: none; }
-.contact li { display: grid; gap: 6px; padding-block: 20px; border-top: 1px solid var(--line); }
-.contact li:last-child { border-bottom: 1px solid var(--line); }
+.book__lede {
+  font-size: clamp(1.2rem, 1.7vw, 1.5rem);
+  line-height: 1.45;
+  max-width: 32ch;
+  color: var(--paper);
+}
+
+.contact {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  gap: 16px;
+}
+
+.contact-card {
+  display: grid;
+  gap: 10px;
+  padding: 22px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.contact-card:hover {
+  border-color: var(--line-strong);
+  background: var(--surface-hover);
+}
+
+.contact-card__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .contact__value {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(1.7rem, 3.4vw, 2.9rem);
-  line-height: 1.05;
-  letter-spacing: 0.01em;
+  font-weight: 700;
+  font-size: clamp(1.8rem, 3.2vw, 2.75rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
   overflow-wrap: anywhere;
   color: var(--paper);
   text-decoration: none;
+  transition: color 0.18s ease;
 }
 a.contact__value:hover { color: var(--lamp); }
-.contact__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; }
+
+.contact__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  margin-top: 4px;
+}
+
 .btn {
   font-family: var(--font-data);
   font-size: 0.75rem;
+  font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink);
   background: var(--lamp);
   border: 1px solid var(--lamp);
-  padding: 9px 14px;
+  padding: 10px 16px;
+  border-radius: 2px;
   cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.1s ease;
 }
-.btn:hover { background: var(--paper); border-color: var(--paper); }
-.link-small { font-family: var(--font-data); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
-.copy-note { font-family: var(--font-data); font-size: 0.75rem; color: var(--dim); min-height: 1.2em; }
+.btn:hover {
+  background: var(--paper);
+  border-color: var(--paper);
+}
+.btn:active { transform: scale(0.98); }
 
-/* ---------- Footer: a poster billing block ---------- */
+.btn-secondary {
+  color: var(--paper);
+  background: transparent;
+  border: 1px solid var(--line-strong);
+}
+.btn-secondary:hover {
+  border-color: var(--lamp);
+  color: var(--lamp);
+  background: var(--lamp-glow);
+}
+
+.copy-feedback {
+  font-family: var(--font-data);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--lamp);
+  min-height: 1.2em;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.copy-feedback.is-visible {
+  opacity: 1;
+}
+
+/* ---------- Footer ---------- */
 .billing {
   margin-top: var(--section);
-  padding-block: 36px 48px;
+  padding-block: 40px 56px;
   border-top: 1px solid var(--line);
   text-align: center;
 }
 .billing p {
   max-width: none;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(0.95rem, 1.7vw, 1.3rem);
-  line-height: 1.5;
-  letter-spacing: 0.16em;
+  font-weight: 700;
+  font-size: clamp(1rem, 1.8vw, 1.35rem);
+  line-height: 1.6;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--dim);
 }
-.billing small { font-size: 0.62em; letter-spacing: 0.2em; }
-.billing b { font-weight: 600; color: var(--paper); }
+.billing small {
+  font-size: 0.65em;
+  letter-spacing: 0.18em;
+  color: var(--dim);
+  opacity: 0.8;
+}
+.billing b {
+  font-weight: 700;
+  color: var(--paper);
+}
 
-/* ---------- Full-screen viewer ---------- */
+/* ---------- Floating Quick Jump Pill ---------- */
+.back-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 45;
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: rgba(18, 16, 14, 0.92);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--line-strong);
+  padding: 10px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.2s ease, color 0.2s ease;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+.back-to-top.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.back-to-top:hover {
+  border-color: var(--lamp);
+  color: var(--lamp);
+}
+
+/* ==========================================================================
+   FULL-SCREEN VIEWER (LIGHTBOX) — MODERN, SOLID & TOUCH-ENABLED
+   ========================================================================== */
 .viewer {
   position: fixed;
   inset: 0;
   z-index: 100;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 12px;
   padding: 16px var(--gutter) 20px;
-  background: rgba(8, 7, 6, 0.97);
+  background: rgba(10, 9, 8, 0.985);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  touch-action: pan-y;
+  user-select: none;
+  animation: viewerFadeIn 0.2s ease-out both;
 }
 .viewer[hidden] { display: none; }
-.viewer__bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.viewer__stage { display: grid; place-items: center; min-height: 0; }
-.viewer__stage img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
-.viewer__foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.viewer__caption { color: var(--dim); font-size: 1rem; max-width: none; }
-.viewer__nav { display: flex; gap: 8px; }
-.ghost {
+
+@keyframes viewerFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.viewer__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.viewer__badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.viewer__section {
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--lamp);
+  text-transform: uppercase;
+}
+.viewer__count {
+  font-family: var(--font-data);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--dim);
+}
+
+.viewer__close {
   font-family: var(--font-data);
   font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--paper);
   background: transparent;
-  border: 1px solid var(--line);
-  padding: 9px 14px;
+  border: 1px solid var(--line-strong);
+  padding: 8px 16px;
+  border-radius: 4px;
   cursor: pointer;
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.18s ease;
 }
-.ghost:hover { border-color: var(--lamp); color: var(--lamp); }
+.viewer__close:hover,
+.viewer__close:focus-visible {
+  border-color: var(--lamp);
+  color: var(--lamp);
+  background: var(--lamp-glow);
+}
 
-/* ---------- Smaller screens ---------- */
-@media (max-width: 1000px) {
+.viewer__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  padding-block: 8px;
+}
+
+.viewer__img-wrap {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.viewer__img {
+  max-width: 100%;
+  max-height: calc(100vh - 160px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 2px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+  transition: opacity 0.22s ease-out, transform 0.22s ease-out;
+}
+.viewer__img.is-switching {
+  opacity: 0.4;
+  transform: scale(0.98);
+}
+
+/* Side navigation buttons */
+.viewer__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(18, 16, 14, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--line-strong);
+  color: var(--paper);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  font-size: 1.25rem;
+}
+.viewer__arrow:hover,
+.viewer__arrow:focus-visible {
+  background: var(--lamp);
+  border-color: var(--lamp);
+  color: var(--ink);
+}
+.viewer__arrow--prev { left: 16px; }
+.viewer__arrow--next { right: 16px; }
+
+.viewer__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.viewer__caption {
+  color: var(--dim);
+  font-size: 0.95rem;
+  max-width: none;
+  font-style: italic;
+  min-height: 1.4em;
+}
+.viewer__hint {
+  font-family: var(--font-data);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN & MOBILE OPTIMIZATIONS
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .grid { columns: 3; }
+}
+
+@media (max-width: 860px) {
+  .about, .book { grid-template-columns: minmax(0, 1fr); }
+  .about__portrait { max-width: 18rem; margin-bottom: 24px; }
   .grid { columns: 2; }
 }
-@media (max-width: 900px) {
-  .about, .book { grid-template-columns: minmax(0, 1fr); }
-  .about__portrait { max-width: 18rem; }
+
+/* Mobile & Instagram In-App Browser Experience */
+@media (max-width: 640px) {
+  body { font-size: 1.05rem; }
+  
+  /* 2-column contact sheet view on mobile */
+  .grid {
+    columns: 2;
+    column-gap: 8px;
+  }
+  .frame {
+    margin-bottom: 8px;
+  }
+  .frame figcaption {
+    font-size: 0.8rem;
+    padding-top: 4px;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding-block: 12px;
+  }
+  .topbar__brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .topbar nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 2px;
+  }
+  .topbar nav a {
+    padding: 6px 10px;
+    font-size: 0.72rem;
+    min-height: 40px;
+    flex: 1;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .intro__row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .intro__meta {
+    text-align: left;
+  }
+
+  .hero {
+    aspect-ratio: 16 / 10;
+  }
+
+  .section__head {
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .section__head h2 {
+    font-size: 2.75rem;
+  }
+
+  /* Full screen viewer on mobile */
+  .viewer {
+    padding: 12px 14px 16px;
+  }
+  .viewer__arrow {
+    display: none; /* Mobile relies on natural horizontal swipe gestures */
+  }
+  .viewer__img {
+    max-height: calc(100vh - 140px);
+  }
+  .viewer__hint {
+    display: none;
+  }
 }
-@media (max-width: 560px) {
-  body { font-size: 1.0625rem; }
+
+/* Very narrow devices (iPhone SE / smaller) */
+@media (max-width: 360px) {
   .grid { columns: 1; }
-  .intro__row { grid-template-columns: minmax(0, 1fr); }
-  .intro__meta { text-align: left; }
-  .hero { aspect-ratio: 16 / 9; }
+  .topbar nav a { font-size: 0.65rem; padding: 6px; }
 }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hero { animation: none; }
+  .hero img { transition: none; }
   .frame__btn img { transition: none; }
+  .viewer { animation: none; }
+  .viewer__img { transition: none; }
 }
 </style>
 </head>
 <body>
 
 <!-- ======================================================================
-     TOP BAR
+     STICKY TOP BAR & NAVIGATION
      ====================================================================== -->
-<header class="wrap">
-  <div class="topbar">
-    <a class="topbar__name" href="#top">Ayman Yuhas Photography</a>
-    <nav aria-label="Sections">
-      <a href="#street">Street</a>
-      <a href="#portraits">Portraits</a>
-      <a href="#events">Events</a>
-      <a href="#about">About</a>
-      <a href="#book">Book</a>
-    </nav>
+<header class="topbar-wrapper">
+  <div class="wrap">
+    <div class="topbar">
+      <a class="topbar__brand" href="#top">
+        <span class="topbar__name">Ayman Yuhas</span>
+        <span class="topbar__tag">Groningen</span>
+      </a>
+      <nav aria-label="Sections">
+        <a href="#street" id="nav-street">Street</a>
+        <a href="#portraits" id="nav-portraits">Portraits</a>
+        <a href="#events" id="nav-events">Events</a>
+        <a href="#about" id="nav-about">About</a>
+        <a href="#book" id="nav-book">Book</a>
+      </nav>
+    </div>
   </div>
 </header>
 
 <main id="top">
 
   <!-- ====================================================================
-       INTRO  ·  edit the words here
+       INTRO
        ==================================================================== -->
   <section class="wrap intro" aria-labelledby="intro-title">
     <h1 id="intro-title">Ayman Yuhas</h1>
     <div class="intro__row">
-      <p class="intro__lede"> Some of my favorite shots over the years, street, portraits and events.</p>
+      <p class="intro__lede">Some of my favorite shots over the years, street, portraits and events.</p>
       <p class="intro__meta data">
         <span>Photography</span>
-        <span>Detroit MI - Groningen, NL</span>
+        <span>Detroit, MI — Groningen, NL</span>
       </p>
     </div>
-    <figure class="hero" id="hero"></figure>
+    <!-- Direct HTML render for optimal LCP & instant first paint -->
+    <figure class="hero" id="hero">
+      <img src="images/hero.jpg" alt="Woman wearing headphones on a park bench surrounded by red autumn leaves" fetchpriority="high" loading="eager" decoding="async">
+    </figure>
   </section>
 
   <!-- ====================================================================
-       GALLERY  ·  the photos themselves are listed in the script at the
-       bottom of this file. Edit the heading and note for each section here.
+       STREET GALLERY
        ==================================================================== -->
   <section class="wrap section" id="street" aria-labelledby="street-title">
     <div class="section__head">
-      <h2 id="street-title">Street</h2>
+      <div class="section__title-group">
+        <h2 id="street-title">Street</h2>
+      </div>
       <div class="section__note">
-        <p>Poeple in their own world.</p>
-        <span class="data" data-count="street">17 frames</span>
+        <p>People in their own world.</p>
+        <div class="section__meta">
+          <span class="frame-count-badge" data-count="street">Loading frames…</span>
+        </div>
       </div>
     </div>
     <div class="grid" data-grid="street"></div>
   </section>
 
+  <!-- ====================================================================
+       PORTRAITS GALLERY
+       ==================================================================== -->
   <section class="wrap section" id="portraits" aria-labelledby="portraits-title">
     <div class="section__head">
-      <h2 id="portraits-title">Portraits</h2>
+      <div class="section__title-group">
+        <h2 id="portraits-title">Portraits</h2>
+      </div>
       <div class="section__note">
         <p>Posed and lit on location.</p>
-        <span class="data" data-count="portraits">2 frames</span>
+        <div class="section__meta">
+          <span class="frame-count-badge" data-count="portraits">Loading frames…</span>
+        </div>
       </div>
     </div>
     <div class="grid" data-grid="portraits"></div>
   </section>
 
+  <!-- ====================================================================
+       EVENTS GALLERY
+       ==================================================================== -->
   <section class="wrap section" id="events" aria-labelledby="events-title">
     <div class="section__head">
-      <h2 id="events-title">Events</h2>
+      <div class="section__title-group">
+        <h2 id="events-title">Events</h2>
+      </div>
       <div class="section__note">
-        <p>Events in Groningen.</p>
-        <span class="data" data-count="events">6 frames</span>
+        <p>Parties, galas, and nightlife in Groningen.</p>
+        <div class="section__meta">
+          <span class="frame-count-badge" data-count="events">Loading frames…</span>
+        </div>
       </div>
     </div>
     <div class="grid" data-grid="events"></div>
   </section>
 
   <!-- ====================================================================
-       ABOUT  ·  edit the words here
+       ABOUT SECTION
        ==================================================================== -->
   <section class="wrap section" id="about" aria-labelledby="about-title">
     <div class="section__head">
-      <h2 id="about-title">About</h2>
+      <div class="section__title-group">
+        <h2 id="about-title">About</h2>
+      </div>
       <div class="section__note">
-        <span class="data">Student photographer</span>
+        <span class="data">Student &amp; Freelance Photographer</span>
       </div>
     </div>
-    <div class="about">
-      <figure class="frame about__portrait" id="portrait"></figure>
+    <div class="about" id="about-container">
+      <figure class="about__portrait" id="portrait">
+        <img src="images/about.jpg" alt="Portrait of Ayman Yuhas" width="1500" height="2000" loading="lazy" decoding="async">
+        <span class="about__stamp">Ayman Yuhas &middot; Groningen</span>
+      </figure>
       <div>
         <div class="about__text">
           <p>I'm Ayman, a student and photographer in Groningen.</p>
@@ -437,7 +1093,6 @@ a.contact__value:hover { color: var(--lamp); }
         </div>
         <dl class="facts">
           <div><dt>Based in</dt><dd>Groningen, NL</dd></div>
-          <div><dt>Camera</dt><dd>Canon 80D</dd></div>
           <div><dt>Shoots</dt><dd>Street, portraits, events</dd></div>
         </dl>
       </div>
@@ -445,12 +1100,13 @@ a.contact__value:hover { color: var(--lamp); }
   </section>
 
   <!-- ====================================================================
-       BOOKING / CONTACT  ·  your Instagram and email live here.
-       If you change the email, change it in all three places in this block.
+       BOOKING / CONTACT SECTION
        ==================================================================== -->
   <section class="wrap section" id="book" aria-labelledby="book-title">
     <div class="section__head">
-      <h2 id="book-title">Book a shoot</h2>
+      <div class="section__title-group">
+        <h2 id="book-title">Book a shoot</h2>
+      </div>
       <div class="section__note">
         <span class="data">Groningen and nearby</span>
       </div>
@@ -458,24 +1114,37 @@ a.contact__value:hover { color: var(--lamp); }
     <div class="book">
       <p class="book__lede">Events, portraits, or a walk around the city with a camera. Send me the date, the place and what you have in mind, and I'll reply with availability and a price.</p>
       <ul class="contact">
-        <li>
-          <span class="data">Instagram</span>
+        <li class="contact-card">
+          <div class="contact-card__label">
+            <span class="data">Instagram (Fastest reply)</span>
+            <span class="data" style="color:var(--lamp)">Direct message &rarr;</span>
+          </div>
           <a class="contact__value" href="https://www.instagram.com/ayphotos715/" target="_blank" rel="noopener">@ayphotos715</a>
+          <div class="contact__actions">
+            <a class="btn" href="https://www.instagram.com/ayphotos715/" target="_blank" rel="noopener">Open Instagram</a>
+          </div>
         </li>
-        <li>
-          <span class="data">Email</span>
+        <li class="contact-card">
+          <div class="contact-card__label">
+            <span class="data">Email</span>
+          </div>
           <span class="contact__value" id="email-address">aymam715@gmail.com</span>
-          <span class="contact__actions">
+          <div class="contact__actions">
             <button class="btn" type="button" id="copy-email">Copy address</button>
-            <a class="link-small" href="mailto:aymam715@gmail.com">Open in mail app</a>
-          </span>
-          <span class="copy-note" id="copy-note" role="status"></span>
+            <a class="btn btn-secondary" href="mailto:aymam715@gmail.com?subject=Inquiry:%20Photography%20shoot%20with%20Ayman">Open in mail app</a>
+            <span class="copy-feedback" id="copy-note" role="status">Copied to clipboard!</span>
+          </div>
         </li>
       </ul>
     </div>
   </section>
 
 </main>
+
+<!-- Floating Back to Top Button -->
+<button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top">
+  <span>&uarr;</span> Top
+</button>
 
 <!-- ======================================================================
      FOOTER
@@ -484,172 +1153,161 @@ a.contact__value:hover { color: var(--lamp); }
   <div class="billing">
     <p>
       <small>Photographs by</small> <b>Ayman Yuhas</b>
-      <small>· Made in</small> <b>Groningen</b>
-      <small>· Camera</small> <b>Canon 80D</b>
-      <small>· Instagram</small> <b>@ayphotos715</b>
+      <small>&middot; Made in</small> <b>Groningen</b>
+      <small>&middot; Instagram</small> <b>@ayphotos715</b>
     </p>
   </div>
 </footer>
 
-<!-- Full-screen viewer, opens when a photo is clicked -->
+<!-- ======================================================================
+     FULL-SCREEN VIEWER (LIGHTBOX)
+     ====================================================================== -->
 <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
   <div class="viewer__bar">
-    <span class="data" id="viewer-count"></span>
-    <button class="ghost" type="button" id="viewer-close">Close</button>
+    <div class="viewer__badge">
+      <span class="viewer__section" id="viewer-section">Street</span>
+      <span class="viewer__count" id="viewer-count">01 / 21</span>
+    </div>
+    <button class="viewer__close" type="button" id="viewer-close" aria-label="Close viewer">
+      <span>&times;</span> Close
+    </button>
   </div>
-  <div class="viewer__stage"><img id="viewer-img" alt=""></div>
+
+  <div class="viewer__stage" id="viewer-stage">
+    <button class="viewer__arrow viewer__arrow--prev" type="button" id="viewer-prev" aria-label="Previous photo">&#8592;</button>
+    <div class="viewer__img-wrap">
+      <img class="viewer__img" id="viewer-img" alt="" src="" draggable="false">
+    </div>
+    <button class="viewer__arrow viewer__arrow--next" type="button" id="viewer-next" aria-label="Next photo">&#8594;</button>
+  </div>
+
   <div class="viewer__foot">
     <p class="viewer__caption" id="viewer-caption"></p>
-    <div class="viewer__nav">
-      <button class="ghost" type="button" id="viewer-prev">Previous</button>
-      <button class="ghost" type="button" id="viewer-next">Next</button>
-    </div>
+    <span class="viewer__hint">Swipe &larr; &rarr; or use arrow keys &middot; Swipe down to close</span>
   </div>
 </div>
 
+<!-- Load gallery data from separate file for effortless updates -->
+<script src="photos.js"></script>
+
 <script>
 /* ==========================================================================
-   YOUR PHOTOS  ·  this is the only part of the script you need to edit.
-
-   How it works
-   - Your image files live in a folder called "images" next to this file.
-   - Each line below is one photo. "file" is the file name inside that folder.
-
-   Per photo
-     file     the file name, e.g. "street-01.jpg"
-     alt      a short description for people using screen readers.
-     caption  optional. Shown under the photo. Leave "" for none.
-     shape    only affects the empty frame shown while a photo loads:
-              "wide", "tall" or "square". A real photo always shows at its
-              own proportions.
-
-   To add a photo: put the file in "images", copy a line, change the file name.
-   To remove one: delete its line, or put // in front of it to switch it off.
-   To reorder: move the lines.
+   PORTFOLIO ENGINE & INTERACTIVE LOGIC
+   Loads photos from photos.js with built-in fallbacks.
    ========================================================================== */
 
 const IMAGE_FOLDER = "images/";
 
-/* true  = a missing photo shows as an empty frame with the file name it is
-           waiting for (handy while you are building a new section)
-   false = a missing photo is left out (use this while the site is live) */
-const SHOW_EMPTY_FRAMES = false;
-
-/* The wide image under your name. It is cropped to a cinema shape, and
-   "position" picks which part stays visible: "50% 50%" is the centre,
-   "50% 0%" the top, "50% 100%" the bottom. */
-const HERO = {
-  file: "hero.jpg",
-  alt: "Woman wearing headphones on a park bench surrounded by red autumn leaves",
-  position: "50% 50%"
-};
-
-/* A photo of you for the About section. Left out until images/about.jpg exists. */
-const PORTRAIT = { file: "about.jpg", alt: "Portrait of Ayman Yuhas" };
-
-const GALLERY = {
+// Built-in fallback gallery data in case photos.js is not present
+const DEFAULT_GALLERY = {
   street: [
-    { file: "street-01.jpg", shape: "tall", caption: "", alt: "Man in a high-visibility vest adjusting his headscarf, black and white" },
-    { file: "street-03.jpg", shape: "tall", caption: "", alt: "Couple holding each other on a canal-side curb at dusk" },
-    { file: "street-04.jpg", shape: "tall", caption: "", alt: "Person sitting on a sunlit patch of grass under dark trees, reflected in water" },
-    { file: "street-05.jpg", shape: "wide", caption: "", alt: "Person with an afro and goggles sitting on a ledge, looking at a phone" },
-    { file: "street-06.jpg", shape: "tall", caption: "", alt: "Crowded train platform seen from above" },
-    { file: "street-07.jpg", shape: "tall", caption: "", alt: "Police officers standing beside a person wrapped in a flag, black and white" },
-    { file: "street-08.jpg", shape: "wide", caption: "", alt: "Three people sitting with their backs to the camera against a yellow wall" },
-    { file: "street-09.jpg", shape: "tall", caption: "", alt: "Marchers carrying flags and signs at a demonstration, black and white" },
-    { file: "street-10.jpg", shape: "wide", caption: "", alt: "Couple on a bench overlooking a valley and mountains" },
-    { file: "street-02.jpg", shape: "tall", caption: "", alt: "Woman on a park bench surrounded by red autumn leaves" },
-    { file: "street-11.jpg", shape: "tall", caption: "", alt: "Two skaters sitting on steps with their boards" },
-    { file: "street-12.jpg", shape: "wide", caption: "", alt: "Group of skaters sitting along a canal wall" },
-    { file: "street-13.jpg", shape: "wide", caption: "", alt: "Man on a bench at a viewpoint with a dog sniffing the ground" },
-    { file: "street-14.jpg", shape: "wide", caption: "", alt: "Arched alley with cafe tables and warm-colored walls" },
-    { file: "street-15.jpg", shape: "tall", caption: "", alt: "Narrow street of orange buildings with a figure climbing the steps" },
-    { file: "street-16.jpg", shape: "tall", caption: "", alt: "Busy narrow street hung with bunting" },
-    { file: "street-17.jpg", shape: "wide", caption: "", alt: "Two silhouettes walking through a dark tunnel towards daylight" }
-    /* Five more of your picks are in the images folder but switched off.
-       To show one, move its line up into the list above (add a comma after
-       the line before it).
-    { file: "street-18.jpg", shape: "tall", caption: "", alt: "Two people sitting on a canal quay, seen from behind" },
-    { file: "street-19.jpg", shape: "tall", caption: "", alt: "Fallen leaf on a wooden bench at sunset" },
-    { file: "street-20.jpg", shape: "tall", caption: "", alt: "Man in a cap sitting in shadow beside a canal" },
-    { file: "street-21.jpg", shape: "tall", caption: "", alt: "Man standing in a small boat under a bridge" },
-    { file: "street-22.jpg", shape: "wide", caption: "", alt: "A man sits on a canal quay beside a seagull" }
-    */
+    { file: "street-01.jpg", shape: "tall", width: 1200, height: 1800, alt: "Man in a high-visibility vest adjusting his headscarf" },
+    { file: "street-03.jpg", shape: "tall", width: 1350, height: 1800, alt: "Couple holding each other on a canal-side curb at dusk" },
+    { file: "street-04.jpg", shape: "tall", width: 1440, height: 1800, alt: "Person sitting on a sunlit patch of grass under dark trees" },
+    { file: "street-05.jpg", shape: "wide", width: 1800, height: 1200, alt: "Person with an afro and goggles looking at a phone" },
+    { file: "street-06.jpg", shape: "tall", width: 1440, height: 1800, alt: "Crowded train platform seen from above" },
+    { file: "street-07.jpg", shape: "tall", width: 1200, height: 1800, alt: "Police officers standing beside a person wrapped in a flag" },
+    { file: "street-08.jpg", shape: "wide", width: 1800, height: 1200, alt: "Three people sitting against a yellow wall" },
+    { file: "street-09.jpg", shape: "tall", width: 1200, height: 1800, alt: "Marchers carrying flags and signs at a demonstration" },
+    { file: "street-10.jpg", shape: "wide", width: 1800, height: 1200, alt: "Couple on a bench overlooking a valley" },
+    { file: "street-11.jpg", shape: "tall", width: 1440, height: 1800, alt: "Two skaters sitting on steps with their boards" },
+    { file: "street-12.jpg", shape: "wide", width: 1800, height: 1200, alt: "Group of skaters sitting along a canal wall" },
+    { file: "street-13.jpg", shape: "wide", width: 1800, height: 1200, alt: "Man on a bench with a dog sniffing the ground" },
+    { file: "street-14.jpg", shape: "wide", width: 1800, height: 1200, alt: "Arched alley with cafe tables and warm-colored walls" },
+    { file: "street-15.jpg", shape: "tall", width: 1440, height: 1800, alt: "Narrow street of orange buildings with climbing figure" },
+    { file: "street-16.jpg", shape: "tall", width: 1440, height: 1800, alt: "Busy narrow street hung with bunting" },
+    { file: "street-17.jpg", shape: "wide", width: 1800, height: 1200, alt: "Two silhouettes walking through a dark tunnel" },
+    { file: "street-18.jpg", shape: "tall", width: 1350, height: 1800, alt: "Two people sitting on a canal quay" },
+    { file: "street-19.jpg", shape: "tall", width: 1350, height: 1800, alt: "Fallen leaf on a wooden bench at sunset" },
+    { file: "street-20.jpg", shape: "tall", width: 1350, height: 1800, alt: "Man in a cap sitting in shadow beside a canal" },
+    { file: "street-21.jpg", shape: "tall", width: 1350, height: 1800, alt: "Man standing in a small boat under a bridge" },
+    { file: "street-22.jpg", shape: "wide", width: 1800, height: 1200, alt: "Man sitting on a canal quay beside a seagull" }
   ],
   portraits: [
-    { file: "portraits-01.jpg", shape: "tall", caption: "", alt: "Man in a pinstripe three-piece suit with his hands steepled, against a dark background" },
-    { file: "portraits-02.jpg", shape: "tall", caption: "", alt: "Woman in a dark suit seated in an armchair beside a bronze statuette" },
-    /* Switched off. To show one again, move its line above this comment.
-    { file: "portraits-03.jpg", shape: "tall", caption: "", alt: "Man in a dark suit seated in an armchair beside a bronze statuette" },
-    { file: "portraits-04.jpg", shape: "wide", caption: "", alt: "Five people in dark suits standing in a wood-paneled hall" },
-    { file: "portraits-05.jpg", shape: "wide", caption: "", alt: "Man in a dark suit standing in a wood-paneled hall" },
-    { file: "portraits-06.jpg", shape: "wide", caption: "", alt: "Five people in dark suits posed beneath a row of painted portraits" },
-    { file: "portraits-07.jpg", shape: "wide", caption: "", alt: "Group in dark suits posing with silver number balloons" }
-    */
+    { file: "portraits-01.jpg", shape: "tall", width: 1200, height: 1800, alt: "Man in a pinstripe three-piece suit" },
+    { file: "portraits-02.jpg", shape: "tall", width: 1246, height: 1800, alt: "Woman in a dark suit seated in an armchair" },
+    { file: "portraits-03.jpg", shape: "tall", width: 1372, height: 1800, alt: "Man in a dark suit seated in an armchair" },
+    { file: "portraits-04.jpg", shape: "wide", width: 1800, height: 1200, alt: "Five people in dark suits in a wood-paneled hall" },
+    { file: "portraits-05.jpg", shape: "wide", width: 1800, height: 1200, alt: "Man in a dark suit in a wood-paneled hall" },
+    { file: "portraits-06.jpg", shape: "wide", width: 1800, height: 1200, alt: "Five people in dark suits beneath painted portraits" },
+    { file: "portraits-07.jpg", shape: "wide", width: 1800, height: 1200, alt: "Group in dark suits posing with silver number balloons" }
   ],
   events: [
-    { file: "events-01.jpg", shape: "wide", caption: "", alt: "Packed dance floor with red smoke and stage lights" },
-    { file: "events-02.jpg", shape: "wide", caption: "", alt: "Group of friends posing and pointing at the camera at a party" },
-    { file: "events-03.jpg", shape: "wide", caption: "", alt: "Three people in orange shirts and fluffy orange hats posing" },
-    { file: "events-04.jpg", shape: "wide", caption: "", alt: "Smiling partygoer in an orange cowboy hat holding up a fan" },
-    { file: "events-05.jpg", shape: "wide", caption: "", alt: "Group of friends posing together at a bar" },
-    { file: "events-06.jpg", shape: "wide", caption: "", alt: "Partygoer drinking a shot on a crowded dance floor" }
+    { file: "events-01.jpg", shape: "wide", width: 1800, height: 1200, alt: "Packed dance floor with red smoke and stage lights" },
+    { file: "events-02.jpg", shape: "wide", width: 1800, height: 1200, alt: "Group of friends posing and pointing at camera" },
+    { file: "events-03.jpg", shape: "wide", width: 1800, height: 1200, alt: "Three people in orange shirts and fluffy orange hats" },
+    { file: "events-04.jpg", shape: "wide", width: 1800, height: 1200, alt: "Smiling partygoer in an orange cowboy hat" },
+    { file: "events-05.jpg", shape: "wide", width: 1800, height: 1200, alt: "Group of friends posing together at a bar" },
+    { file: "events-06.jpg", shape: "wide", width: 1800, height: 1200, alt: "Partygoer drinking a shot on a crowded dance floor" }
   ]
 };
 
-/* ==========================================================================
-   Everything below builds the page from the lists above.
-   You shouldn't need to touch it.
-   ========================================================================== */
-
-if (!SHOW_EMPTY_FRAMES) document.body.classList.add("hide-empty");
+const GALLERY = (window.GALLERY_DATA && Object.keys(window.GALLERY_DATA).length > 0)
+  ? window.GALLERY_DATA
+  : DEFAULT_GALLERY;
 
 function pad(n) { return String(n).padStart(2, "0"); }
 
-/* An empty frame, shown while a photo loads or while its file is missing */
-function makeSlot(code, file, shape) {
-  const slot = document.createElement("div");
-  slot.className = "slot";
-  slot.dataset.shape = shape || "wide";
-  const c = document.createElement("span");
-  c.className = "slot__code";
-  c.textContent = code;
-  const f = document.createElement("span");
-  f.className = "slot__file";
-  f.textContent = IMAGE_FOLDER + file;
-  slot.append(c, f);
-  return slot;
-}
+// Flattened list of all loaded photos for lightbox navigation
+let allPhotosList = [];
 
-/* Try to load a photo: swap it in if the file exists, otherwise report it missing */
-function loadPhoto(photo, fallbackAlt, onReady, onMissing) {
-  const img = new Image();
-  img.alt = photo.alt || photo.caption || fallbackAlt;
-  img.onload = function () { onReady(img); };
-  img.onerror = function () { if (onMissing) onMissing(); };
-  img.src = IMAGE_FOLDER + photo.file;
-}
+/* Build a gallery frame */
+function buildFrame(rawPhoto, sectionName, number) {
+  // Normalize string-only photo entries
+  const photo = typeof rawPhoto === "string" ? { file: rawPhoto } : rawPhoto;
+  const filename = photo.file;
+  const code = sectionName.charAt(0).toUpperCase() + " · " + pad(number);
+  const altText = photo.alt || (sectionName.charAt(0).toUpperCase() + sectionName.slice(1) + " photograph " + number + " by Ayman Yuhas");
 
-function updateCount(name) {
-  const grid = document.querySelector('[data-grid="' + name + '"]');
-  const count = document.querySelector('[data-count="' + name + '"]');
-  if (!grid || !count) return;
-  const n = grid.children.length;
-  count.textContent = n + (n === 1 ? " frame" : " frames");
-}
+  // Calculate aspect ratio percentage for instant CLS prevention
+  let aspectPct = "133.33%"; // default 3:4 tall
+  if (photo.width && photo.height) {
+    aspectPct = ((photo.height / photo.width) * 100).toFixed(2) + "%";
+  } else if (photo.shape === "wide") {
+    aspectPct = "66.67%";
+  } else if (photo.shape === "square") {
+    aspectPct = "100%";
+  }
 
-function buildFrame(photo, sectionName, number) {
-  const code = sectionName.charAt(0).toUpperCase() + "·" + pad(number);
   const figure = document.createElement("figure");
   figure.className = "frame";
+  figure.dataset.section = sectionName;
+  figure.dataset.code = code;
+  figure.dataset.file = filename;
   figure.dataset.caption = photo.caption || "";
+  figure.dataset.alt = altText;
 
   const btn = document.createElement("button");
   btn.type = "button";
   btn.className = "frame__btn";
-  btn.disabled = true;
-  btn.setAttribute("aria-label", "Loading photo " + code);
-  btn.append(makeSlot(code, photo.file, photo.shape));
+  btn.style.setProperty("--aspect", aspectPct);
+  btn.setAttribute("aria-label", "Open photograph " + code + ": " + altText);
+
+  const img = document.createElement("img");
+  img.src = IMAGE_FOLDER + filename;
+  img.alt = altText;
+  img.loading = "lazy";
+  img.decoding = "async";
+  if (photo.width) img.width = photo.width;
+  if (photo.height) img.height = photo.height;
+
+  img.addEventListener("load", function () {
+    btn.classList.add("is-loaded");
+    img.classList.add("static-img");
+  });
+
+  // Handle missing photo gracefully
+  img.addEventListener("error", function () {
+    figure.remove();
+    updateCount(sectionName);
+    reindexPhotos();
+  });
+
+  const stamp = document.createElement("span");
+  stamp.className = "frame__stamp";
+  stamp.textContent = code;
+
+  btn.append(img, stamp);
   figure.append(btn);
 
   if (photo.caption) {
@@ -658,88 +1316,98 @@ function buildFrame(photo, sectionName, number) {
     figure.append(cap);
   }
 
-  loadPhoto(photo, sectionName + " photograph " + number,
-    function (img) {
-      btn.replaceChildren(img);
-      btn.disabled = false;
-      btn.setAttribute("aria-label", "Open photo: " + img.alt);
-      figure.classList.add("is-loaded");
-    },
-    function () {
-      if (SHOW_EMPTY_FRAMES) {
-        btn.setAttribute("aria-label", "Empty frame " + code + ", waiting for " + photo.file);
-      } else {
-        figure.remove();
-        updateCount(sectionName);
-      }
-    });
-
   btn.addEventListener("click", function () {
-    openViewer(loadedFrames().indexOf(figure));
+    const idx = allPhotosList.indexOf(figure);
+    if (idx !== -1) openViewer(idx);
   });
+
   return figure;
 }
 
-/* Galleries */
+function updateCount(name) {
+  const grid = document.querySelector('[data-grid="' + name + '"]');
+  const count = document.querySelector('[data-count="' + name + '"]');
+  if (!grid || !count) return;
+  const n = grid.querySelectorAll(".frame").length;
+  count.textContent = n + (n === 1 ? " frame" : " frames");
+}
+
+function reindexPhotos() {
+  allPhotosList = Array.from(document.querySelectorAll(".grid .frame"));
+}
+
+/* Initialize Galleries */
 Object.keys(GALLERY).forEach(function (name) {
   const grid = document.querySelector('[data-grid="' + name + '"]');
   if (!grid) return;
-  GALLERY[name].forEach(function (photo, i) { grid.append(buildFrame(photo, name, i + 1)); });
+  const list = GALLERY[name] || [];
+  list.forEach(function (photo, i) {
+    grid.append(buildFrame(photo, name, i + 1));
+  });
   updateCount(name);
 });
+reindexPhotos();
 
-/* Lead image */
+/* About Portrait Graceful Handling */
 (function () {
-  const hero = document.getElementById("hero");
-  hero.append(makeSlot("Lead frame · 2.39:1", HERO.file, "cinema"));
-  loadPhoto(HERO, "Lead photograph",
-    function (img) {
-      if (HERO.position) img.style.objectPosition = HERO.position;
-      hero.replaceChildren(img);
-    },
-    function () { if (!SHOW_EMPTY_FRAMES) hero.remove(); });
-})();
-
-/* About portrait */
-(function () {
-  const box = document.getElementById("portrait");
-  box.append(makeSlot("Portrait", PORTRAIT.file, "tall"));
-  loadPhoto(PORTRAIT, "Portrait of the photographer",
-    function (img) { box.replaceChildren(img); },
-    function () {
-      if (SHOW_EMPTY_FRAMES) return;
-      box.closest(".about").classList.add("no-portrait");
-      box.remove();
+  const portrait = document.getElementById("portrait");
+  const aboutContainer = document.getElementById("about-container");
+  if (!portrait) return;
+  const pImg = portrait.querySelector("img");
+  if (pImg) {
+    pImg.addEventListener("error", function () {
+      aboutContainer.classList.add("no-portrait");
+      portrait.remove();
     });
+  }
 })();
 
-/* ---------- Full-screen viewer ---------- */
+/* ==========================================================================
+   FULL-SCREEN VIEWER (LIGHTBOX) WITH TOUCH GESTURES
+   ========================================================================== */
 const viewer = document.getElementById("viewer");
 const viewerImg = document.getElementById("viewer-img");
-const viewerCaption = document.getElementById("viewer-caption");
+const viewerSection = document.getElementById("viewer-section");
 const viewerCount = document.getElementById("viewer-count");
+const viewerCaption = document.getElementById("viewer-caption");
 const viewerClose = document.getElementById("viewer-close");
+const viewerPrev = document.getElementById("viewer-prev");
+const viewerNext = document.getElementById("viewer-next");
+
 let viewerIndex = 0;
 let lastFocus = null;
 
-function loadedFrames() {
-  return Array.from(document.querySelectorAll(".grid .frame.is-loaded"));
-}
-
 function showFrame(i) {
-  const frames = loadedFrames();
-  if (!frames.length) return;
-  viewerIndex = (i + frames.length) % frames.length;
-  const frame = frames[viewerIndex];
-  const source = frame.querySelector("img");
-  viewerImg.src = source.src;
-  viewerImg.alt = source.alt;
-  viewerCaption.textContent = frame.dataset.caption || "";
-  viewerCount.textContent = pad(viewerIndex + 1) + " / " + pad(frames.length);
+  if (!allPhotosList.length) return;
+  viewerIndex = (i + allPhotosList.length) % allPhotosList.length;
+  const frame = allPhotosList[viewerIndex];
+
+  const sourceSrc = IMAGE_FOLDER + frame.dataset.file;
+  const sourceAlt = frame.dataset.alt || "";
+  const sourceCaption = frame.dataset.caption || "";
+  const sectionName = frame.dataset.section || "";
+  const code = frame.dataset.code || "";
+
+  viewerImg.classList.add("is-switching");
+  setTimeout(function () {
+    viewerImg.src = sourceSrc;
+    viewerImg.alt = sourceAlt;
+    viewerSection.textContent = sectionName.toUpperCase() + " · " + code;
+    viewerCaption.textContent = sourceCaption;
+    viewerCount.textContent = pad(viewerIndex + 1) + " / " + pad(allPhotosList.length);
+    viewerImg.classList.remove("is-switching");
+  }, 120);
+
+  // Preload adjacent images for instantaneous flipping
+  const nextIdx = (viewerIndex + 1) % allPhotosList.length;
+  const prevIdx = (viewerIndex - 1 + allPhotosList.length) % allPhotosList.length;
+  const preNext = new Image(); preNext.src = IMAGE_FOLDER + allPhotosList[nextIdx].dataset.file;
+  const prePrev = new Image(); prePrev.src = IMAGE_FOLDER + allPhotosList[prevIdx].dataset.file;
 }
 
 function openViewer(i) {
-  if (i < 0) return;
+  reindexPhotos();
+  if (i < 0 || !allPhotosList.length) return;
   lastFocus = document.activeElement;
   showFrame(i);
   viewer.hidden = false;
@@ -754,11 +1422,17 @@ function closeViewer() {
 }
 
 viewerClose.addEventListener("click", closeViewer);
-document.getElementById("viewer-prev").addEventListener("click", function () { showFrame(viewerIndex - 1); });
-document.getElementById("viewer-next").addEventListener("click", function () { showFrame(viewerIndex + 1); });
+viewerPrev.addEventListener("click", function () { showFrame(viewerIndex - 1); });
+viewerNext.addEventListener("click", function () { showFrame(viewerIndex + 1); });
+
+// Click on backdrop to close
 viewer.addEventListener("click", function (e) {
-  if (e.target === viewer || e.target.classList.contains("viewer__stage")) closeViewer();
+  if (e.target === viewer || e.target.id === "viewer-stage") {
+    closeViewer();
+  }
 });
+
+// Keyboard controls
 document.addEventListener("keydown", function (e) {
   if (viewer.hidden) return;
   if (e.key === "Escape") closeViewer();
@@ -766,18 +1440,118 @@ document.addEventListener("keydown", function (e) {
   if (e.key === "ArrowRight") showFrame(viewerIndex + 1);
 });
 
-/* ---------- Copy email button ---------- */
+/* Touch Swipe Gestures (Instagram / Mobile native feel) */
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+
+viewer.addEventListener("touchstart", function (e) {
+  touchStartX = e.changedTouches[0].screenX;
+  touchStartY = e.changedTouches[0].screenY;
+}, { passive: true });
+
+viewer.addEventListener("touchend", function (e) {
+  touchEndX = e.changedTouches[0].screenX;
+  touchEndY = e.changedTouches[0].screenY;
+  handleSwipe();
+}, { passive: true });
+
+function handleSwipe() {
+  const dx = touchEndX - touchStartX;
+  const dy = touchEndY - touchStartY;
+  const absX = Math.abs(dx);
+  const absY = Math.abs(dy);
+
+  // Horizontal swipe -> Prev/Next photo
+  if (absX > 45 && absX > absY * 1.5) {
+    if (dx < 0) {
+      showFrame(viewerIndex + 1); // Swipe left -> Next
+    } else {
+      showFrame(viewerIndex - 1); // Swipe right -> Previous
+    }
+  }
+  // Swipe down -> Dismiss viewer
+  else if (dy > 70 && absY > absX * 1.5) {
+    closeViewer();
+  }
+}
+
+/* ==========================================================================
+   ACTIVE NAVIGATION HIGHLIGHTING & BACK TO TOP BUTTON
+   ========================================================================== */
+const navLinks = document.querySelectorAll(".topbar nav a");
+const sections = document.querySelectorAll("main section[id]");
+const backToTopBtn = document.getElementById("back-to-top");
+
+window.addEventListener("scroll", function () {
+  const scrollY = window.scrollY;
+
+  // Toggle Back to Top button
+  if (scrollY > 500) {
+    backToTopBtn.classList.add("is-visible");
+  } else {
+    backToTopBtn.classList.remove("is-visible");
+  }
+
+  // Active section indicator
+  let currentSection = "";
+  sections.forEach(function (sec) {
+    const top = sec.offsetTop - 120;
+    const height = sec.offsetHeight;
+    if (scrollY >= top && scrollY < top + height) {
+      currentSection = sec.id;
+    }
+  });
+
+  navLinks.forEach(function (link) {
+    link.classList.remove("is-active");
+    if (currentSection && link.getAttribute("href") === "#" + currentSection) {
+      link.classList.add("is-active");
+    }
+  });
+}, { passive: true });
+
+backToTopBtn.addEventListener("click", function () {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+/* ==========================================================================
+   COPY EMAIL INTERACTION WITH RELIABLE FALLBACK
+   ========================================================================== */
 document.getElementById("copy-email").addEventListener("click", function () {
   const address = document.getElementById("email-address").textContent.trim();
   const note = document.getElementById("copy-note");
-  const fail = function () { note.textContent = "Couldn't copy. Select the address above and copy it."; };
-  try {
-    navigator.clipboard.writeText(address).then(
-      function () { note.textContent = "Address copied."; },
-      fail
-    );
-  } catch (err) {
-    fail();
+
+  function onSuccess() {
+    note.textContent = "Copied to clipboard!";
+    note.classList.add("is-visible");
+    setTimeout(function () {
+      note.classList.remove("is-visible");
+    }, 2800);
+  }
+
+  function fallbackCopy() {
+    const textarea = document.createElement("textarea");
+    textarea.value = address;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand("copy");
+      onSuccess();
+    } catch (err) {
+      note.textContent = "Address: " + address;
+      note.classList.add("is-visible");
+    }
+    document.body.removeChild(textarea);
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(address).then(onSuccess).catch(fallbackCopy);
+  } else {
+    fallbackCopy();
   }
 });
 </script>
