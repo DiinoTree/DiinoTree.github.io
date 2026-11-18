@@ -1,5 +1,11 @@
 /* ==========================================================================
    AYMAN YUHAS PHOTOGRAPHY — GALLERY CONFIGURATION
+   Current Order: Events -> Portraits -> Street -> About -> Book
+   
+   REMINDER FOR LATER:
+   When you shoot more individual portrait sessions and want Portraits first:
+   1. Move the 'portraits' list above 'events' in the GALLERY_DATA object below.
+   2. In index.html, move <section id="portraits"> above <section id="events">.
    
    HOW TO ADD OR REMOVE PHOTOS:
    - Method 1 (Automatic):
@@ -24,6 +30,74 @@ window.PORTRAIT_PHOTO = {
 };
 
 window.GALLERY_DATA = {
+  events: [
+    {
+      file: "events-01.jpg",
+      shape: "wide",
+      width: 1800,
+      height: 1200,
+      caption: "",
+      alt: "Packed dance floor with red smoke and stage lights"
+    },
+    {
+      file: "events-02.jpg",
+      shape: "wide",
+      width: 1800,
+      height: 1200,
+      caption: "",
+      alt: "Group of friends posing and pointing at the camera at a party"
+    },
+    {
+      file: "events-03.jpg",
+      shape: "wide",
+      width: 1800,
+      height: 1200,
+      caption: "",
+      alt: "Three people in orange shirts and fluffy orange hats posing"
+    },
+    {
+      file: "events-04.jpg",
+      shape: "wide",
+      width: 1800,
+      height: 1200,
+      caption: "",
+      alt: "Smiling partygoer in an orange cowboy hat holding up a fan"
+    },
+    {
+      file: "events-05.jpg",
+      shape: "wide",
+      width: 1800,
+      height: 1200,
+      caption: "",
+      alt: "Group of friends posing together at a bar"
+    },
+    {
+      file: "events-06.jpg",
+      shape: "wide",
+      width: 1800,
+      height: 1200,
+      caption: "",
+      alt: "Partygoer drinking a shot on a crowded dance floor"
+    }
+  ],
+  portraits: [
+    {
+      file: "portraits-01.jpg",
+      shape: "tall",
+      width: 1200,
+      height: 1800,
+      caption: "",
+      alt: "Man in a pinstripe three-piece suit with his hands steepled, against a dark background"
+    },
+    {
+      file: "portraits-02.jpg",
+      shape: "tall",
+      width: 1246,
+      height: 1800,
+      caption: "",
+      alt: "Woman in a dark suit seated in an armchair beside a bronze statuette"
+    }
+  ],
   street: [
     {
       file: "street-01.jpg",
@@ -160,74 +234,6 @@ window.GALLERY_DATA = {
       height: 1200,
       caption: "",
       alt: "Two silhouettes walking through a dark tunnel towards daylight"
-    }
-  ],
-  portraits: [
-    {
-      file: "portraits-01.jpg",
-      shape: "tall",
-      width: 1200,
-      height: 1800,
-      caption: "",
-      alt: "Man in a pinstripe three-piece suit with his hands steepled, against a dark background"
-    },
-    {
-      file: "portraits-02.jpg",
-      shape: "tall",
-      width: 1246,
-      height: 1800,
-      caption: "",
-      alt: "Woman in a dark suit seated in an armchair beside a bronze statuette"
-    }
-  ],
-  events: [
-    {
-      file: "events-01.jpg",
-      shape: "wide",
-      width: 1800,
-      height: 1200,
-      caption: "",
-      alt: "Packed dance floor with red smoke and stage lights"
-    },
-    {
-      file: "events-02.jpg",
-      shape: "wide",
-      width: 1800,
-      height: 1200,
-      caption: "",
-      alt: "Group of friends posing and pointing at the camera at a party"
-    },
-    {
-      file: "events-03.jpg",
-      shape: "wide",
-      width: 1800,
-      height: 1200,
-      caption: "",
-      alt: "Three people in orange shirts and fluffy orange hats posing"
-    },
-    {
-      file: "events-04.jpg",
-      shape: "wide",
-      width: 1800,
-      height: 1200,
-      caption: "",
-      alt: "Smiling partygoer in an orange cowboy hat holding up a fan"
-    },
-    {
-      file: "events-05.jpg",
-      shape: "wide",
-      width: 1800,
-      height: 1200,
-      caption: "",
-      alt: "Group of friends posing together at a bar"
-    },
-    {
-      file: "events-06.jpg",
-      shape: "wide",
-      width: 1800,
-      height: 1200,
-      caption: "",
-      alt: "Partygoer drinking a shot on a crowded dance floor"
     }
   ]
 };
